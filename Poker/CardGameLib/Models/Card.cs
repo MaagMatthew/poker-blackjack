@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CardGameLib.Models {
     public class Card {
-        public Suit Suit { get; set; }
-        public Face Face { get; set; }
+        public readonly Suit Suit;
+        public readonly Face Face;
         
         public Card(Suit suit, Face face) {
             Suit = suit;
