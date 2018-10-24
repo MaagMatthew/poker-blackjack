@@ -10,13 +10,19 @@ namespace Poker.Controllers
 {
     class BlackJackController
     {
-        Deck deck = new Deck();
+        public Deck deck { get; set; }
+        public List<Player> Players { get; set; }
 
-
-        public void NewHand()
+        public BlackJackController(int players = 2)
         {
+
+            for(int i = 0; i < players; i++)
+            {
+                //Gives each player a hand, which will be empty
+                Players.Add(new Player());
+            }
             
         }
-
+        
     }
 }
