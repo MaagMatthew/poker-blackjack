@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CardGameLib.Enums;
 using CardGameLib.Models;
 
 
@@ -12,7 +13,6 @@ namespace Poker.Controllers
     {
         public Deck deck { get; set; }
         public List<Player> Players { get; set; }
-        public House house { get; set; }
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
 
         public BlackJackController(int players = 1)
@@ -47,11 +47,6 @@ namespace Poker.Controllers
                 person.Hand.Return(deck.Draw());
                 person.Hand.Return(deck.Draw());
             }
-            house = new House();
-            house.HouseHand.Return(deck.Draw());
-            house.HouseHand.Return(deck.Draw());
-            
-            
 
         }
 
