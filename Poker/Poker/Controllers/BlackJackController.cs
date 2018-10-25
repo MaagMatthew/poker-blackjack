@@ -13,7 +13,7 @@ namespace Poker.Controllers
         public Deck deck { get; set; }
         public List<Player> Players { get; set; }
 
-        public BlackJackController(int players = 2)
+        public BlackJackController(int players = 1)
         {
 
             for (int i = 0; i < players; i++)
