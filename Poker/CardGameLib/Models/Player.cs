@@ -12,7 +12,12 @@ namespace CardGameLib.Models
         public string Username { get; set; }
         public Deck Hand { get; set; }
 
-
+        public Player()
+        {
+            Money = 0;
+            Username = "CPU";
+            Hand = new Deck(true);
+        }
         public Player(int money)
         {
             Money = money;
