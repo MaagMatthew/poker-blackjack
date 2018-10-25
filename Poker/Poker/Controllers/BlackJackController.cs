@@ -75,6 +75,42 @@ namespace Poker.Controllers
             //Win: return 2x cost of hand
             //Blackjack: Return 3x cost of hand
             //5 - card Charlie: Return 4x cost of hand
+
+            foreach (var player in Players)
+            {
+                string result = CheckHands(player);
+
+                if (result == "Draw")
+                {
+                    player.Money += 20; //Replace 20 with their bet value
+                }
+                else if (result == "Win")
+                {
+                    player.Money += 40; //Replace 40 with their bet X 2
+                }
+                else if (result == "Charlie")
+                {
+                    player.Money += 80; //Replace 80 with their bet X 4
+                }
+                else if (result == "Blackjack")
+                {
+                    player.Money += 60; //Rel=place 60 with thier bet X 3
+                }
+                else
+                {
+                    player.Money -= 20; //Replace 20 with their bet value
+                }
+            }
+
+        }
+
+        private string CheckHands(Player player)
+        {
+            //Check the players hand and see if their card values match the house, beat the house, they have blackjack, or have a 5-card charlie
+
+
+
+            return "";
         }
     }
 }
