@@ -49,28 +49,25 @@ namespace Poker.Controllers
             {
                 string result = CheckHands(player);
 
-                if (result == "Draw")
+                switch (result)
                 {
-                    player.Money += 20; //Replace 20 with their bet value
-                }
-                else if (result == "Win")
-                {
-                    player.Money += 40; //Replace 40 with their bet X 2
-                }
-                else if (result == "Charlie")
-                {
-                    player.Money += 80; //Replace 80 with their bet X 4
-                }
-                else if (result == "Blackjack")
-                {
-                    player.Money += 60; //Rel=place 60 with thier bet X 3
-                }
-                else
-                {
-                    player.Money -= 20; //Replace 20 with their bet value
+                    case "Draw":
+                        player.Money += 20; //Replace 20 with their bet value
+                        break;
+                    case "Win":
+                        player.Money += 40; //Replace 40 with their bet X 2
+                        break;
+                    case "Charlie":
+                        player.Money += 80; //Replace 80 with their bet X 4
+                        break;
+                    case "Blackjack":
+                        player.Money += 60; //Rel=place 60 with thier bet X 3
+                        break;
+                    default:
+                        player.Money -= 20; //Replace 20 with their bet value
+                        break;
                 }
             }
-
         }
 
         private string CheckHands(Player player)
@@ -79,7 +76,7 @@ namespace Poker.Controllers
 
 
 
-            return "";
+            return "Lost";
         }
     }
 }
