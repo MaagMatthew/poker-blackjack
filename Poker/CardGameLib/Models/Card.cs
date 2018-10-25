@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CardGameLib.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -54,27 +55,5 @@ namespace CardGameLib.Models {
                 return new Uri($"../Resources/{FaceChar()}{SuitChar()}.png", UriKind.Relative);
             }
         }
-    }
-    public enum Suit {
-        HEARTS,
-        DIAMONDS,
-        CLUBS,
-        SPADES
-    }
-    public enum Face {
-        ACE,
-        TWO,
-        THREE,
-        FOUR,
-        FIVE,
-        SIX,
-        SEVEN,
-        EIGHT,
-        NINE,
-        TEN,
-        JACK,
-        QUEEN,
-        KING,
-        JOKER
     }
 }
