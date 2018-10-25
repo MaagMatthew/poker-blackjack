@@ -83,19 +83,19 @@ namespace Poker.Controllers
                 switch (result)
                 {
                     case "Draw":
-                        player.Money += 20; //Replace 20 with their bet value
+                        player.Money += player.Bet;
                         break;
                     case "Win":
-                        player.Money += 40; //Replace 40 with their bet X 2
+                        player.Money += player.Bet * 2;
                         break;
                     case "Charlie":
-                        player.Money += 80; //Replace 80 with their bet X 4
+                        player.Money += player.Bet * 4;
                         break;
                     case "Blackjack":
-                        player.Money += 60; //Rel=place 60 with thier bet X 3
+                        player.Money += player.Bet * 3;
                         break;
                     default:
-                        player.Money -= 20; //Replace 20 with their bet value
+                        player.Money -= player.Bet;
                         break;
                 }
             }
