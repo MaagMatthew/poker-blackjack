@@ -12,15 +12,46 @@ namespace Poker.Controllers
     {
         public Deck deck { get; set; }
         public List<Player> Players { get; set; }
+        public House house { get; set; }
+        public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
 
         public BlackJackController(int players = 1)
         {
-
+            // Adding all the numeric values for the Card
+            keyValues.Add(Face.TWO, 2);
+            keyValues.Add(Face.THREE, 3);
+            keyValues.Add(Face.FOUR, 4);
+            keyValues.Add(Face.FIVE, 5);
+            keyValues.Add(Face.SIX, 6);
+            keyValues.Add(Face.SEVEN, 7);
+            keyValues.Add(Face.EIGHT, 8);
+            keyValues.Add(Face.NINE, 9);
+            keyValues.Add(Face.TEN, 10);
+            keyValues.Add(Face.JACK, 10);
+            keyValues.Add(Face.QUEEN, 10);
+            keyValues.Add(Face.KING, 10);
+            keyValues.Add(Face.ACE, 11);
+            keyValues.Add(Face.ACE, 1);
             for (int i = 0; i < players; i++)
             {
                 //Gives each player a hand, which will be empty
                 Players.Add(new Player());
             }
+
+            deck = new Deck();
+            deck.Shuffle();
+
+            //Each player draws two cards
+            foreach(var person in Players)
+            {
+                person.Hand.Return(deck.Draw());
+                person.Hand.Return(deck.Draw());
+            }
+            house = new House();
+            house.HouseHand.Return(deck.Draw());
+            house.HouseHand.Return(deck.Draw());
+            
+            
 
         }
 
