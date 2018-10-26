@@ -42,7 +42,7 @@ namespace Poker.Controllers
             GameDeck.Shuffle();
 
             //Each player draws two cards
-            foreach(var person in Players)
+            foreach (var person in Players)
             {
                 person.Hand.Return(GameDeck.Draw());
                 person.Hand.Return(GameDeck.Draw());
@@ -69,6 +69,16 @@ namespace Poker.Controllers
             else
             {
                 throw new Exception();
+=======
+
+        private void ProcessHouseTurn()
+        {
+            int handValue = GetHandValue(house.HouseHand);
+            if (handValue < 17)
+            {
+                Card card = deck.Draw();
+                house.HouseHand.Return(card);
+>>>>>>> 79b379058493ff938dd774ac3dec2d498b921d2c
             }
         }
 
@@ -113,24 +123,25 @@ namespace Poker.Controllers
 
         private string CheckHands(Player player)
         {
-            if(BlackJack(player.Hand))
+            if (BlackJack(player.Hand))
             {
                 return "Blackjack";
             }
-            else if(BeatHouse(player.Hand))
+            else if (BeatHouse(player.Hand))
             {
                 return "Win";
             }
-            else if(HouseDraw(player.Hand))
+            else if (HouseDraw(player.Hand))
             {
                 return "Draw";
             }
-            else if(FiveCardCharlie(player.Hand))
+            else if (FiveCardCharlie(player.Hand))
             {
                 return "Charlie";
             }
             return "Lost";
         }
+        #region checking player hand to house
         private bool BlackJack(Deck hand)
         {
             int points = GetHandValue(hand);
@@ -145,7 +156,7 @@ namespace Poker.Controllers
             int playerPoints = GetHandValue(hand);
             int housePoints = GetHandValue(house.HouseHand);
 
-            if(playerPoints > housePoints && playerPoints < 22)
+            if (playerPoints > housePoints && playerPoints < 22)
             {
                 return true;
             }
@@ -187,4 +198,5 @@ namespace Poker.Controllers
             return points;
         }
     }
+    #endregion
 }
