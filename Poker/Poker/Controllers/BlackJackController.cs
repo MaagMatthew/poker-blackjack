@@ -52,6 +52,25 @@ namespace Poker.Controllers
             house.HouseHand.Return(GameDeck.Draw());
         }
 
+        /* Takes in each of the bets and applies it to their accounts
+         * 
+         */
+        public void InitialBet(List<int> bets)
+        {
+            if (Players.Count == bets.Count)
+            {
+                int i = 0;
+                foreach (var person in Players)
+                {
+                    person.Bet(bets[i]);
+                }
+            }
+            else
+            {
+                throw new Exception();
+
+            }
+        }
         private void ProcessHouseTurn()
         {
             int handValue = GetHandValue(house.HouseHand);
