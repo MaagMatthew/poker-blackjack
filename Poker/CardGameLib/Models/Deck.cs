@@ -55,5 +55,10 @@ namespace CardGameLib.Models {
         public Card Draw() {
             return Remove(0);
         }
+
+        public List<Card> GetCards()
+        {
+            return cards;
+        }
     }
 }
