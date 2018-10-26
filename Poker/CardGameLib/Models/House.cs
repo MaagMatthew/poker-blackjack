@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace CardGameLib.Models
 {
-    class House
+    public class House
     {
+        public Deck HouseHand { get; set; }
+
     }
 }

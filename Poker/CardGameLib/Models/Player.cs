@@ -11,7 +11,7 @@ namespace CardGameLib.Models
         public int Money { get; set; }
         public string Username { get; set; }
         public Deck Hand { get; set; }
-        public int Bet { get; set; }
+        public int BetPool { get; set; }
 
         public Player()
         {
@@ -60,6 +60,15 @@ namespace CardGameLib.Models
             Money = money;
             Username = username;
             Hand = deck;
+        }
+
+        public void Bet(int money)
+        {
+            if(money <= Money)
+            {
+                Money -= money;
+                BetPool += Money;
+            }
         }
     }
 }

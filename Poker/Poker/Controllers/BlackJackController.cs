@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CardGameLib.Enums;
 using CardGameLib.Models;
 
 
@@ -10,10 +11,10 @@ namespace Poker.Controllers
 {
     class BlackJackController
     {
-        public Deck deck { get; set; }
+        public Deck GameDeck { get; set; }
         public List<Player> Players { get; set; }
-        public House house { get; set; }
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
+        public House house = new House();
 
         public BlackJackController(int players = 1)
         {
@@ -31,30 +32,36 @@ namespace Poker.Controllers
             keyValues.Add(Face.QUEEN, 10);
             keyValues.Add(Face.KING, 10);
             keyValues.Add(Face.ACE, 11);
-            keyValues.Add(Face.ACE, 1);
             for (int i = 0; i < players; i++)
             {
                 //Gives each player a hand, which will be empty
                 Players.Add(new Player());
             }
 
-            deck = new Deck();
-            deck.Shuffle();
+            GameDeck = new Deck();
+            GameDeck.Shuffle();
 
             //Each player draws two cards
-            foreach(var person in Players)
+            foreach (var person in Players)
             {
-                person.Hand.Return(deck.Draw());
-                person.Hand.Return(deck.Draw());
+                person.Hand.Return(GameDeck.Draw());
+                person.Hand.Return(GameDeck.Draw());
             }
-            house = new House();
-            house.HouseHand.Return(deck.Draw());
-            house.HouseHand.Return(deck.Draw());
-            
-            
+
+            house.HouseHand.Return(GameDeck.Draw());
+            house.HouseHand.Return(GameDeck.Draw());
 
         }
 
+        private void ProcessHouseTurn()
+        {
+            int handValue = GetHandValue(house.HouseHand);
+            if (handValue < 17)
+            {
+                Card card = deck.Draw();
+                house.HouseHand.Return(card);
+            }
+        }
 
         private void EndOfRound()
         {
@@ -70,12 +77,6 @@ namespace Poker.Controllers
         }
         private void Payout()
         {
-            //Pay out what the players have won/lost this round
-            //Draw: return cost of hand
-            //Win: return 2x cost of hand
-            //Blackjack: Return 3x cost of hand
-            //5 - card Charlie: Return 4x cost of hand
-
             foreach (var player in Players)
             {
                 string result = CheckHands(player);
@@ -83,19 +84,19 @@ namespace Poker.Controllers
                 switch (result)
                 {
                     case "Draw":
-                        player.Money += player.Bet;
+                        player.Money += player.BetPool;
                         break;
                     case "Win":
-                        player.Money += player.Bet * 2;
+                        player.Money += player.BetPool * 2;
                         break;
                     case "Charlie":
-                        player.Money += player.Bet * 4;
+                        player.Money += player.BetPool * 4;
                         break;
                     case "Blackjack":
-                        player.Money += player.Bet * 3;
+                        player.Money += player.BetPool * 3;
                         break;
                     default:
-                        player.Money -= player.Bet;
+                        player.Money -= player.BetPool;
                         break;
                 }
             }
@@ -103,11 +104,80 @@ namespace Poker.Controllers
 
         private string CheckHands(Player player)
         {
-            //Check the players hand and see if their card values match the house, beat the house, they have blackjack, or have a 5-card charlie
-
-
-
+            if (BlackJack(player.Hand))
+            {
+                return "Blackjack";
+            }
+            else if (BeatHouse(player.Hand))
+            {
+                return "Win";
+            }
+            else if (HouseDraw(player.Hand))
+            {
+                return "Draw";
+            }
+            else if (FiveCardCharlie(player.Hand))
+            {
+                return "Charlie";
+            }
             return "Lost";
         }
+        #region checking player hand to house
+        private bool BlackJack(Deck hand)
+        {
+            int points = GetHandValue(hand);
+            if (points == 21)
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool BeatHouse(Deck hand)
+        {
+            int playerPoints = GetHandValue(hand);
+            int housePoints = GetHandValue(house.HouseHand);
+
+            if (playerPoints > housePoints && playerPoints < 22)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        private bool HouseDraw(Deck hand)
+        {
+            int playerPoints = GetHandValue(hand);
+            int housePoints = GetHandValue(house.HouseHand);
+
+            if (playerPoints == housePoints && playerPoints < 22)
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool FiveCardCharlie(Deck hand)
+        {
+            var cards = hand.GetCards();
+
+            if (cards.Count >= 5)
+            {
+                return true;
+            }
+            return false;
+        }
+        private int GetHandValue(Deck hand)
+        {
+            int points = 0;
+            var cards = hand.GetCards();
+            foreach (var card in cards)
+            {
+                if (keyValues.ContainsKey(card.Face))
+                {
+                    points += keyValues[card.Face];
+                }
+            }
+            return points;
+        }
     }
+    #endregion
 }
