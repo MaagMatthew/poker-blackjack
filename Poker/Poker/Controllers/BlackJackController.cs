@@ -14,6 +14,7 @@ namespace Poker.Controllers
         public Deck deck { get; set; }
         public List<Player> Players { get; set; }
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
+        public House house = new House();
 
         public BlackJackController(int players = 1)
         {
@@ -47,6 +48,9 @@ namespace Poker.Controllers
                 person.Hand.Return(deck.Draw());
                 person.Hand.Return(deck.Draw());
             }
+
+            house.HouseHand.Return(deck.Draw());
+            house.HouseHand.Return(deck.Draw());
 
         }
 
