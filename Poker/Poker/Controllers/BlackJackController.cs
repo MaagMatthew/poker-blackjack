@@ -96,22 +96,78 @@ namespace Poker.Controllers
 
         private string CheckHands(Player player)
         {
-            //Check the players hand and see if their card values match the house, beat the house, they have blackjack, or have a 5-card charlie
-
             if(BlackJack(player.Hand))
             {
-
+                return "Blackjack";
             }
-
+            else if(BeatHouse(player.Hand))
+            {
+                return "Win";
+            }
+            else if(HouseDraw(player.Hand))
+            {
+                return "Draw";
+            }
+            else if(FiveCardCharlie(player.Hand))
+            {
+                return "Charlie";
+            }
             return "Lost";
         }
         private bool BlackJack(Deck hand)
         {
-            //if()
-            //{
-            //    return true;
-            //}
+            int points = GetHandValue(hand);
+            if (points == 21)
+            {
+                return true;
+            }
             return false;
+        }
+        private bool BeatHouse(Deck hand)
+        {
+            int playerPoints = GetHandValue(hand);
+            int housePoints = GetHandValue(house.HouseHand);
+
+            if(playerPoints > housePoints && playerPoints < 22)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        private bool HouseDraw(Deck hand)
+        {
+            int playerPoints = GetHandValue(hand);
+            int housePoints = GetHandValue(house.HouseHand);
+
+            if (playerPoints == housePoints && playerPoints < 22)
+            {
+                return true;
+            }
+            return false;
+        }
+        private bool FiveCardCharlie(Deck hand)
+        {
+            var cards = hand.GetCards();
+
+            if (cards.Count >= 5)
+            {
+                return true;
+            }
+            return false;
+        }
+        private int GetHandValue(Deck hand)
+        {
+            int points = 0;
+            var cards = hand.GetCards();
+            foreach (var card in cards)
+            {
+                if (keyValues.ContainsKey(card.Face))
+                {
+                    points += keyValues[card.Face];
+                }
+            }
+            return points;
         }
     }
 }
