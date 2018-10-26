@@ -51,16 +51,16 @@ namespace Poker.Controllers
             house.HouseHand.Return(GameDeck.Draw());
             house.HouseHand.Return(GameDeck.Draw());
         }
-        
+
         /* Takes in each of the bets and applies it to their accounts
          * 
          */
         public void InitialBet(List<int> bets)
         {
-            if(Players.Count == bets.Count)
+            if (Players.Count == bets.Count)
             {
                 int i = 0;
-                foreach(var person in Players)
+                foreach (var person in Players)
                 {
                     person.Bet(bets[i]);
                 }
@@ -68,8 +68,9 @@ namespace Poker.Controllers
             else
             {
                 throw new Exception();
-=======
 
+            }
+        }
         private void ProcessHouseTurn()
         {
             int handValue = GetHandValue(house.HouseHand);
@@ -77,7 +78,6 @@ namespace Poker.Controllers
             {
                 Card card = GameDeck.Draw();
                 house.HouseHand.Return(card);
->>>>>>> 79b379058493ff938dd774ac3dec2d498b921d2c
             }
         }
 
