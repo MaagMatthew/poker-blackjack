@@ -6,7 +6,22 @@
         xmlns:local="clr-namespace:Poker"
         mc:Ignorable="d"
         Title="GameWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <Canvas Name="MainBoard" Background="DarkGreen">
+        <StackPanel Name="Hand" Height="150" Width="790"  Canvas.Top="260"/>
+        <Rectangle Name="Deck" Height="150" Width="110" Canvas.Left="650" Canvas.Top="25"></Rectangle>
+        <Canvas Name="TurnActions" Height="225" Width="200">
+            <TextBlock Width="100" Height="50" Text="Bank:" TextAlignment="Center" FontFamily="Harlow Solid" FontSize="35" Foreground="White"/>
+            <TextBlock Name="Bank" Width="100" Height="25" Canvas.Top="13"  Canvas.Left="100" Text="$0" TextAlignment="Left" FontFamily="Harlow Solid" FontSize="20" Foreground="White"/>
+            <Button Name="Fold" Height="50" Width="100" Canvas.Top="50" Canvas.Left="50" Content="Fold" Background="Black" Foreground="DarkGoldenrod" FontFamily="Harlow Solid" FontSize="30" Click="Fold_Click" BorderBrush="DarkGoldenrod" BorderThickness="3"/>
+            <Button Name="Draw" Height="50" Width="100" Canvas.Top="105" Canvas.Left="50" Content="Draw" Background="DarkGoldenrod" FontFamily="Harlow Solid" FontSize="30" Click="Draw_Click" BorderBrush="Black" BorderThickness="3"/>
+            <Button Name="Call" Height="50" Width="100" Canvas.Top="160" Canvas.Left="50" Content="Call" Background="Black" Foreground="DarkGoldenrod" FontFamily="Harlow Solid" FontSize="30" Click="Call_Click" BorderBrush="DarkGoldenrod" BorderThickness="3"/>
+        </Canvas>
+        <Canvas Name="PotValues" Height="250" Width="400" Canvas.Left="240">
+            <TextBlock Margin="10,10,157,121" Width="200" Text="Pot Value:" FontFamily="Harlow Solid" Foreground="White" TextAlignment="Justify" FontSize="44"/>
+            <TextBlock Margin="10,109,157,16" Width="200" Text="Your Bet:" FontFamily="Harlow Solid" Foreground="White" TextAlignment="Justify" FontSize="45"/>
+            <TextBlock Name="Pot" Margin="215,27,10,167" Text="$0" FontFamily="Harlow Solid" Foreground="White" TextAlignment="Left" FontSize="25"/>
+            <TextBlock Name="PlayerBet" Margin="215,126,10,67" Text="$0" FontFamily="Harlow Solid" Foreground="White" TextAlignment="Left" FontSize="25"/>
+            <Button Name="RaiseButton" Canvas.Top="175" Canvas.Left="175" Height="50" Width="150" Content="Raise" FontFamily="Harlow Solid" FontSize="40" Background="DarkGreen" Foreground="White" BorderThickness="0" Click="RaiseButton_Click"/>
+        </Canvas>
+    </Canvas>
 </Window>

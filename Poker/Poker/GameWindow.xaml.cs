@@ -23,5 +23,25 @@ namespace Poker
         {
             InitializeComponent();
         }
+
+        private void Fold_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Draw_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Call_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RaiseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
