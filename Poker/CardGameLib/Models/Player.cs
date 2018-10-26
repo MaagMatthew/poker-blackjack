@@ -70,5 +70,14 @@ namespace CardGameLib.Models
                 BetPool += Money;
             }
         }
+        
+        public void Payout(int money)
+        {
+            if(money >= 0)
+            {
+                Money += money;
+                BetPool = 0;
+            }
+        }
     }
 }
