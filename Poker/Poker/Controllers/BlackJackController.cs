@@ -43,7 +43,7 @@ namespace Poker.Controllers
             deck.Shuffle();
 
             //Each player draws two cards
-            foreach(var person in Players)
+            foreach (var person in Players)
             {
                 person.Hand.Return(deck.Draw());
                 person.Hand.Return(deck.Draw());
@@ -54,6 +54,15 @@ namespace Poker.Controllers
 
         }
 
+        private void ProcessHouseTurn()
+        {
+            int handValue = GetHandValue(house.HouseHand);
+            if (handValue < 17)
+            {
+                Card card = deck.Draw();
+                house.HouseHand.Return(card);
+            }
+        }
 
         private void EndOfRound()
         {
@@ -96,24 +105,25 @@ namespace Poker.Controllers
 
         private string CheckHands(Player player)
         {
-            if(BlackJack(player.Hand))
+            if (BlackJack(player.Hand))
             {
                 return "Blackjack";
             }
-            else if(BeatHouse(player.Hand))
+            else if (BeatHouse(player.Hand))
             {
                 return "Win";
             }
-            else if(HouseDraw(player.Hand))
+            else if (HouseDraw(player.Hand))
             {
                 return "Draw";
             }
-            else if(FiveCardCharlie(player.Hand))
+            else if (FiveCardCharlie(player.Hand))
             {
                 return "Charlie";
             }
             return "Lost";
         }
+        #region checking player hand to house
         private bool BlackJack(Deck hand)
         {
             int points = GetHandValue(hand);
@@ -128,7 +138,7 @@ namespace Poker.Controllers
             int playerPoints = GetHandValue(hand);
             int housePoints = GetHandValue(house.HouseHand);
 
-            if(playerPoints > housePoints && playerPoints < 22)
+            if (playerPoints > housePoints && playerPoints < 22)
             {
                 return true;
             }
@@ -170,4 +180,5 @@ namespace Poker.Controllers
             return points;
         }
     }
+    #endregion
 }
