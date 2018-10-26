@@ -11,7 +11,7 @@ namespace Poker.Controllers
 {
     class BlackJackController
     {
-        public Deck deck { get; set; }
+        public Deck GameDeck { get; set; }
         public List<Player> Players { get; set; }
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
         public House house = new House();
@@ -38,18 +38,18 @@ namespace Poker.Controllers
                 Players.Add(new Player());
             }
 
-            deck = new Deck();
-            deck.Shuffle();
+            GameDeck = new Deck();
+            GameDeck.Shuffle();
 
             //Each player draws two cards
             foreach(var person in Players)
             {
-                person.Hand.Return(deck.Draw());
-                person.Hand.Return(deck.Draw());
+                person.Hand.Return(GameDeck.Draw());
+                person.Hand.Return(GameDeck.Draw());
             }
 
-            house.HouseHand.Return(deck.Draw());
-            house.HouseHand.Return(deck.Draw());
+            house.HouseHand.Return(GameDeck.Draw());
+            house.HouseHand.Return(GameDeck.Draw());
 
         }
 
