@@ -10,8 +10,18 @@ namespace Poker.Controllers
 {
     class PokerController
     {
-        private Dictionary<Face, int> FaceValues = new Dictionary<Face, int>();
-        public PokerController() {
+
+        public Deck GameDeck { get; set; }
+        public int SmallBlind { get; set; }
+        public int LargeBlind { get; set; }
+        public int CurrentBet { get; set; }
+        public List<Player> Players { get; set; }
+        public List<bool> ActivePlayers { get; set; }
+        public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
+        public House house = new House();
+
+        public PokerController()
+        {
             FaceValues.Add(Face.TWO, 0);
             FaceValues.Add(Face.THREE, 1);
             FaceValues.Add(Face.FOUR, 2);
@@ -25,7 +35,42 @@ namespace Poker.Controllers
             FaceValues.Add(Face.QUEEN, 10);
             FaceValues.Add(Face.KING, 11);
             FaceValues.Add(Face.ACE, 12);
+            NewGame();
         }
+
+        public void NewGame()
+        {
+            for(int i = 0; i < ActivePlayers.Count; i++)
+            {
+                if(Players[i].Money > -500)
+                {
+                    ActivePlayers[i] = true;
+                }
+            }
+        }
+
+        public void Raise(int money, Player p)
+        {
+            if(money >= CurrentBet + LargeBlind)
+            {
+                CurrentBet = money;
+                p.Bet(CurrentBet - p.BetPool);
+            }
+        }
+
+        public void Call(Player p)
+        {
+            p.Bet(CurrentBet - p.BetPool);
+        }
+
+        public void Fold(Player p)
+        {
+            p.Payout(0);
+
+            ActivePlayers[Players.IndexOf(p)] = false;
+        }
+
+        private Dictionary<Face, int> FaceValues = new Dictionary<Face, int>();
         public double HandScore(Deck hand) {
 
             throw new NotImplementedException();
