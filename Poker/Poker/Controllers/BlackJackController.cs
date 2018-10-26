@@ -65,12 +65,6 @@ namespace Poker.Controllers
         }
         private void Payout()
         {
-            //Pay out what the players have won/lost this round
-            //Draw: return cost of hand
-            //Win: return 2x cost of hand
-            //Blackjack: Return 3x cost of hand
-            //5 - card Charlie: Return 4x cost of hand
-
             foreach (var player in Players)
             {
                 string result = CheckHands(player);
@@ -100,9 +94,20 @@ namespace Poker.Controllers
         {
             //Check the players hand and see if their card values match the house, beat the house, they have blackjack, or have a 5-card charlie
 
+            if(BlackJack(player.Hand))
+            {
 
+            }
 
             return "Lost";
+        }
+        private bool BlackJack(Deck hand)
+        {
+            //if()
+            //{
+            //    return true;
+            //}
+            return false;
         }
     }
 }
