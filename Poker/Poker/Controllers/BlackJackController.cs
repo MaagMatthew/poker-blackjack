@@ -32,7 +32,6 @@ namespace Poker.Controllers
             keyValues.Add(Face.QUEEN, 10);
             keyValues.Add(Face.KING, 10);
             keyValues.Add(Face.ACE, 11);
-            keyValues.Add(Face.ACE, 1);
             for (int i = 0; i < players; i++)
             {
                 //Gives each player a hand, which will be empty
@@ -82,19 +81,19 @@ namespace Poker.Controllers
                 switch (result)
                 {
                     case "Draw":
-                        player.Money += player.Bet;
+                        player.Money += player.BetPool;
                         break;
                     case "Win":
-                        player.Money += player.Bet * 2;
+                        player.Money += player.BetPool * 2;
                         break;
                     case "Charlie":
-                        player.Money += player.Bet * 4;
+                        player.Money += player.BetPool * 4;
                         break;
                     case "Blackjack":
-                        player.Money += player.Bet * 3;
+                        player.Money += player.BetPool * 3;
                         break;
                     default:
-                        player.Money -= player.Bet;
+                        player.Money -= player.BetPool;
                         break;
                 }
             }
