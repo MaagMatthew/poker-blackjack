@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Poker.Controllers
 {
-    class PokerController
+    public class PokerController
     {
 
         public Deck GameDeck { get; set; }

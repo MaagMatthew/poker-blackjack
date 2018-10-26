@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Poker.Controllers;
 
 namespace BlackjackTests
 {
@@ -11,6 +12,7 @@ namespace BlackjackTests
         [TestMethod]
         public void GetHandValuePass()
         {
+            
         }
         [TestMethod]
         public void GetHandValueFail()

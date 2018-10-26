@@ -9,7 +9,7 @@ using CardGameLib.Models;
 
 namespace Poker.Controllers
 {
-    class BlackJackController
+    public class BlackJackController
     {
         public Deck GameDeck { get; set; }
         public List<Player> Players { get; set; }
