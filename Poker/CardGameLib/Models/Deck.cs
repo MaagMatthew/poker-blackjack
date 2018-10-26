@@ -11,6 +11,12 @@ namespace CardGameLib.Models {
 
         private List<Card> cards = new List<Card>();
 
+        public int Size {
+            get {
+                return cards.Count;
+            }
+        }
+
         public Card this[int index] {
             get {
                 return cards[index];

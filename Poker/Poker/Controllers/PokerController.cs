@@ -76,8 +76,22 @@ namespace Poker.Controllers
             throw new NotImplementedException();
         }
         private Deck SortHand(Deck hand) {
+            Deck handCopy = new Deck(true);
+            for (int i = 0; i < hand.Size; i++) {
+                handCopy.Return(hand[i]);
+            }
+            Deck result = new Deck(true);
 
-            throw new NotImplementedException();
+            while (handCopy.Size != 0) {
+                int lowestIndex = 0;
+                for (int i = 0; i < handCopy.Size; i++) {
+                    if (FaceValues[handCopy[lowestIndex].Face] > FaceValues[handCopy[i].Face]) {
+                        lowestIndex = i;
+                    }
+                }
+                result.Return(handCopy.Remove(lowestIndex));
+            }
+            return result;
         }
     }
 }
