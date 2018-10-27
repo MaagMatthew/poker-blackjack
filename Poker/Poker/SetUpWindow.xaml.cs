@@ -19,9 +19,18 @@ namespace Poker
     /// </summary>
     public partial class SetUpWindow : Window
     {
-        public SetUpWindow()
+        public string GameType { get; set; }
+        public SetUpWindow(string gt)
         {
+            GameType = gt;
             InitializeComponent();
+        }
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            GameWindow gw = new GameWindow(GameType, 2);
+            gw.Show();
+            this.Close();
         }
     }
 }
