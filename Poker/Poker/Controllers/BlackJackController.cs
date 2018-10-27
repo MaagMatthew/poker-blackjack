@@ -12,7 +12,7 @@ namespace Poker.Controllers
     public class BlackJackController
     {
         public Deck GameDeck { get; set; }
-        public List<Player> Players { get; set; }
+        public List<Player> Players { get; set; } = new List<Player>();
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
         public House house = new House();
 
@@ -71,7 +71,7 @@ namespace Poker.Controllers
 
             }
         }
-        private void ProcessHouseTurn()
+        public void ProcessHouseTurn()
         {
             int handValue = GetHandValue(house.HouseHand);
             if (handValue < 17)
@@ -143,17 +143,17 @@ namespace Poker.Controllers
             return "Lost";
         }
 
-        private bool BlackJack(Deck hand)
+        public bool BlackJack(Deck hand)
         {
             int points = GetHandValue(hand);
-            if (points == 21)
+            if (points == 21 && hand.Size == 2)
             {
                 return true;
             }
             return false;
         }
 
-        private bool BeatHouse(Deck hand)
+        public bool BeatHouse(Deck hand)
         {
             int playerPoints = GetHandValue(hand);
             int housePoints = GetHandValue(house.HouseHand);
@@ -166,7 +166,7 @@ namespace Poker.Controllers
             return false;
         }
 
-        private bool HouseDraw(Deck hand)
+        public bool HouseDraw(Deck hand)
         {
             int playerPoints = GetHandValue(hand);
             int housePoints = GetHandValue(house.HouseHand);
@@ -178,18 +178,18 @@ namespace Poker.Controllers
             return false;
         }
 
-        private bool FiveCardCharlie(Deck hand)
+        public bool FiveCardCharlie(Deck hand)
         {
             var cards = hand.GetCards();
 
-            if (cards.Count >= 5)
+            if (cards.Count >= 5 && GetHandValue(hand) < 21)
             {
                 return true;
             }
             return false;
         }
 
-        private int GetHandValue(Deck hand)
+        public int GetHandValue(Deck hand)
         {
             int points = 0;
             var cards = hand.GetCards();
