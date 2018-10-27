@@ -25,14 +25,18 @@ namespace Poker
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Poker_Click(object sender, RoutedEventArgs e)
         {
-
+            SetUpWindow poker = new SetUpWindow();
+            poker.Show();
+            this.Close();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void BlackJack_Click(object sender, RoutedEventArgs e)
         {
-
+            SetUpWindow blackJack = new SetUpWindow();
+            blackJack.Show();
+            this.Close();
         }
     }
 }
