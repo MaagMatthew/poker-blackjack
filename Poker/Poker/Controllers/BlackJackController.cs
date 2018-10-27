@@ -9,7 +9,7 @@ using CardGameLib.Models;
 
 namespace Poker.Controllers
 {
-    class BlackJackController
+    public class BlackJackController
     {
         public Deck GameDeck { get; set; }
         public List<Player> Players { get; set; }
@@ -50,15 +50,33 @@ namespace Poker.Controllers
 
             house.HouseHand.Return(GameDeck.Draw());
             house.HouseHand.Return(GameDeck.Draw());
-
         }
 
+        /* Takes in each of the bets and applies it to their accounts
+         * 
+         */
+        public void InitialBet(List<int> bets)
+        {
+            if (Players.Count == bets.Count)
+            {
+                int i = 0;
+                foreach (var person in Players)
+                {
+                    person.Bet(bets[i]);
+                }
+            }
+            else
+            {
+                throw new Exception();
+
+            }
+        }
         private void ProcessHouseTurn()
         {
             int handValue = GetHandValue(house.HouseHand);
             if (handValue < 17)
             {
-                Card card = deck.Draw();
+                Card card = GameDeck.Draw();
                 house.HouseHand.Return(card);
             }
         }
@@ -74,7 +92,9 @@ namespace Poker.Controllers
                     Players.Remove(person);
                 }
             }
+            //Go into the next round
         }
+
         private void Payout()
         {
             foreach (var player in Players)
@@ -122,7 +142,7 @@ namespace Poker.Controllers
             }
             return "Lost";
         }
-        #region checking player hand to house
+
         private bool BlackJack(Deck hand)
         {
             int points = GetHandValue(hand);
@@ -132,6 +152,7 @@ namespace Poker.Controllers
             }
             return false;
         }
+
         private bool BeatHouse(Deck hand)
         {
             int playerPoints = GetHandValue(hand);
@@ -144,6 +165,7 @@ namespace Poker.Controllers
 
             return false;
         }
+
         private bool HouseDraw(Deck hand)
         {
             int playerPoints = GetHandValue(hand);
@@ -155,6 +177,7 @@ namespace Poker.Controllers
             }
             return false;
         }
+
         private bool FiveCardCharlie(Deck hand)
         {
             var cards = hand.GetCards();
@@ -165,6 +188,7 @@ namespace Poker.Controllers
             }
             return false;
         }
+
         private int GetHandValue(Deck hand)
         {
             int points = 0;
@@ -179,5 +203,4 @@ namespace Poker.Controllers
             return points;
         }
     }
-    #endregion
 }
