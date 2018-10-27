@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CardGameLib.Models {
-    public class Card {
+    public struct Card {
         public readonly Suit Suit;
         public readonly Face Face;
         
@@ -54,6 +54,12 @@ namespace CardGameLib.Models {
             get {
                 return new Uri($"../Resources/{FaceChar()}{SuitChar()}.png", UriKind.Relative);
             }
+        }
+        public static bool operator ==(Card self, Card other) {
+            return self.Face == other.Face && self.Suit == other.Suit;
+        }
+        public static bool operator !=(Card self, Card other) {
+            return !(self == other);
         }
     }
 }
