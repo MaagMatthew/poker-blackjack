@@ -76,6 +76,15 @@ namespace CardGameLib.Models {
             }
             return count;
         }
+        public int SuitCount(Suit suit) {
+            int count = 0;
+            foreach (Card card in cards) {
+                if (card.Suit == suit) {
+                    count++;
+                }
+            }
+            return count;
+        }
         public bool Contains(Card card) {
             foreach (Card loopCard in cards) {
                 if (card == loopCard) {

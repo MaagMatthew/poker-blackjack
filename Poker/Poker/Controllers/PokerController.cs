@@ -119,21 +119,72 @@ namespace Poker.Controllers
             }
 
             //Full House
+            for (int i = 14; i >= 2; i--) {
+                if (hand.FaceCount(FaceFromValue(i)) == 3) {
+                    for (int j = 14; j >= 2; j--) {
+                        if (i != j && hand.FaceCount(FaceFromValue(j)) >= 2) {
+                            return new List<int> { 6, i, j }; //Are these values for tiebreaking correct?
+                        }
+                    }
+                }
+            }
 
             //Flush
+            foreach (Suit suit in Enum.GetValues(typeof(Suit))) {
+                if (hand.SuitCount(suit) >= 5) {
+                    Deck fiveCardHand = new Deck(true);
+                    for (int i = sortedHand.Size - 1; i >= 0 && fiveCardHand.Size < 5; i--) {
+                        if (sortedHand[i].Suit == suit) {
+                            fiveCardHand.Return(sortedHand[i]);
+                        }
+                    }
+                    return new List<int> {  //Do flushes get tiebroken?
+                        5,
+                        FaceValues[fiveCardHand[0].Face],
+                        FaceValues[fiveCardHand[1].Face],
+                        FaceValues[fiveCardHand[2].Face],
+                        FaceValues[fiveCardHand[3].Face],
+                        FaceValues[fiveCardHand[4].Face],
+                    };
+                }
+            }
 
             //Straight
+            for (int i = sortedHand.Size - 1; i >= 0; i--) {
+                Card card = sortedHand[i];
+                if (FaceValues[card.Face] < 10) {
+                    if (hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 1)) > 0 &&
+                        hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 2)) > 0 &&
+                        hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 3)) > 0 &&
+                        hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 4)) > 0) {
+                        return new List<int> { 4, FaceValues[card.Face] };
+                    }
+                }
+            }
 
             //Three of a Kind
+            for (int i = 14; i >= 2; i--) {
+                if (hand.FaceCount(FaceFromValue(i)) == 3) {
+                    return new List<int> { 3, i };
+                }
+            }
 
-            //Two Pairs
-
-            //Pair
+            //Two Pairs & One Pair
+            for (int i = 14; i >= 2; i--) {
+                if (hand.FaceCount(FaceFromValue(i)) == 2) {
+                    for (int j = 14; j >= 2; j--) {
+                        if (i != j && hand.FaceCount(FaceFromValue(j)) == 2) {
+                            return new List<int> { 2, Math.Max(i, j), Math.Min(i, j) }; //Is this right?
+                        }
+                    }
+                    return new List<int> { 1, i };
+                }
+            }
 
             //Highcard
             score.Add(0);
             score.Add(FaceValues[sortedHand[sortedHand.Size - 1].Face]);
-            return new List<int> { 0, FaceValues[sortedHand[sortedHand.Size - 1].Face] };
+            return new List<int> { 0, FaceValues[sortedHand[sortedHand.Size - 1].Face] }; //Other cards?
         }
         private Deck SortHand(Deck hand) {
             Deck handCopy = new Deck(true);
