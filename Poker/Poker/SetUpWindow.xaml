@@ -11,7 +11,7 @@
         <Button Name="PlayButton" Height="50" Width="125" Margin="537,182,133,191" Background="DarkGoldenrod" BorderBrush="Black" BorderThickness="3" FontFamily="Harlow Solid" Content="Play" FontSize="25" Click="Play_Click"/>
         <Grid Name="Players" Height="300" Width="200" Margin="297,83,297,40">
             <TextBlock Text="Number of Players" Foreground="White" FontFamily="Harlow Solid" FontSize="24" TextAlignment="Center"/>
-            <TextBlock Name="PlayerNum"  Margin="58,105,56,93" Text="{Binding Path=BoundNumber,Mode=TwoWay}" Foreground="White" FontFamily="Harlow Solid" FontSize="100" TextAlignment="Center"/>
+            <TextBlock Name="PlayerNum"  Margin="58,105,56,93" Foreground="White" FontFamily="Harlow Solid" FontSize="100" TextAlignment="Center"/>
             <Button Margin="132,125,10,93" Background="DarkGreen" Foreground="DarkGoldenrod" Content="+" FontFamily="HarlowSolid" FontSize="75" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0" Click="More_Click" Name="More"/>
             <Button Margin="10,125,132,93" Background="DarkGreen" Content="-" FontFamily="Harlow" FontSize="75" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0" Name="Fewer" Click="Fewer_Click"/>
         </Grid>
