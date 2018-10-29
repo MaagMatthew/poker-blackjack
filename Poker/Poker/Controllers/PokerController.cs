@@ -123,7 +123,7 @@ namespace Poker.Controllers
                 if (hand.FaceCount(FaceFromValue(i)) == 3) {
                     for (int j = 14; j >= 2; j--) {
                         if (i != j && hand.FaceCount(FaceFromValue(j)) >= 2) {
-                            return new List<int> { 6, i, j }; //Are these values for tiebreaking correct?
+                            return new List<int> { 6, i };
                         }
                     }
                 }
@@ -138,14 +138,7 @@ namespace Poker.Controllers
                             fiveCardHand.Return(sortedHand[i]);
                         }
                     }
-                    return new List<int> {  //Do flushes get tiebroken?
-                        5,
-                        FaceValues[fiveCardHand[0].Face],
-                        FaceValues[fiveCardHand[1].Face],
-                        FaceValues[fiveCardHand[2].Face],
-                        FaceValues[fiveCardHand[3].Face],
-                        FaceValues[fiveCardHand[4].Face],
-                    };
+                    return new List<int> { 5 };
                 }
             }
 
@@ -174,7 +167,7 @@ namespace Poker.Controllers
                 if (hand.FaceCount(FaceFromValue(i)) == 2) {
                     for (int j = 14; j >= 2; j--) {
                         if (i != j && hand.FaceCount(FaceFromValue(j)) == 2) {
-                            return new List<int> { 2, Math.Max(i, j), Math.Min(i, j) }; //Is this right?
+                            return new List<int> { 2, Math.Max(i, j), Math.Min(i, j) };
                         }
                     }
                     return new List<int> { 1, i };
@@ -184,7 +177,13 @@ namespace Poker.Controllers
             //Highcard
             score.Add(0);
             score.Add(FaceValues[sortedHand[sortedHand.Size - 1].Face]);
-            return new List<int> { 0, FaceValues[sortedHand[sortedHand.Size - 1].Face] }; //Other cards?
+            return new List<int> { 0,
+                FaceValues[sortedHand[sortedHand.Size - 1].Face],
+                FaceValues[sortedHand[sortedHand.Size - 2].Face],
+                FaceValues[sortedHand[sortedHand.Size - 3].Face],
+                FaceValues[sortedHand[sortedHand.Size - 4].Face],
+                FaceValues[sortedHand[sortedHand.Size - 5].Face]
+            };
         }
         private Deck SortHand(Deck hand) {
             Deck handCopy = new Deck(true);

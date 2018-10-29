@@ -1,0 +1,33 @@
+﻿<Window x:Class="Poker.BlackJackGameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Poker"
+        mc:Ignorable="d"
+        Title="BlackJackGameWindow" Height="450" Width="800">
+    <Canvas Name="MainBoard" Background="DarkGreen">
+        <StackPanel Name="Hand" Width="750" Height="150" Canvas.Bottom="25" Canvas.Left="25" Orientation="Horizontal">
+
+        </StackPanel>
+        <StackPanel Name="HouseHand" Width="590" Height="150" Canvas.Bottom="180" Canvas.Left="50" Canvas.Top="93" Orientation="Horizontal">
+
+        </StackPanel>
+        <Rectangle Name="Deck" Width="110" Height="150" Canvas.Top="25" Canvas.Right="25">
+
+        </Rectangle>
+        <Canvas Name="BankValues" Width="250" Height="75" Canvas.Top="10">
+            <TextBlock Name="Bank" Text="Bank:" Foreground="White" FontFamily="Harlow Solid" FontSize="20"/>
+            <TextBlock Name="BankNum" Text="$0" Foreground="White" FontFamily="Harlow Solid" FontSize="20" Canvas.Left="50" Width="100"/>
+            
+            <TextBlock Name="Bet" Text="Bet:" Foreground="White" FontFamily="Harlow Solid" FontSize="20" Canvas.Top="25"/>
+            <TextBlock Name="BetNum" Text="$0" Foreground="White" FontFamily="Harlow Solid" FontSize="20" Canvas.Left="50" Canvas.Top="25" Width="100"/>
+        </Canvas>
+        <Canvas Name="Buttons" Height="75" Canvas.Top="10" Canvas.Left="275" Width="360">
+            <Button Name="Hit" Height="50" Width="90" Background="Black" Foreground="DarkGoldenrod" Content="Hit" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Click="Hit_Click"/>
+            <Button Name="Split" Height="50" Width="90" Background="DarkGoldenrod" Content="Split" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Canvas.Left="110" Click="Split_Click"/>
+            <Button Name="Pass" Height="50" Width="90" Background="Black" Foreground="DarkGoldenrod" Content="Pass" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Canvas.Left="220" Click="Pass_Click"/>
+        </Canvas>
+
+    </Canvas>
+</Window>
