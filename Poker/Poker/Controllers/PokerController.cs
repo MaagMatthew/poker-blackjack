@@ -199,5 +199,38 @@ namespace Poker.Controllers
             }
             return result;
         }
+        public List<Deck> WinningHands(params Deck[] hands) {
+            List<int> highscore = new List<int> { -1 };
+            foreach (Deck hand in hands) {
+                List<int> score = HandScore(hand);
+                for (int i = 0; i < score.Count; i++) {
+                    if (score[i] > highscore[i]) {
+                        highscore = score;
+                    }
+                    if (score[i] != highscore[i]) {
+                        break;
+                    }
+                }
+            }
+
+            List<Deck> winners = new List<Deck>();
+            foreach (Deck hand in hands) {
+                if (IntListsEqual(HandScore(hand), highscore)) {
+                    winners.Add(hand);
+                }
+            }
+            return winners;
+        }
+        private bool IntListsEqual(List<int> list1, List<int> list2) {
+            if (list1.Count != list2.Count) {
+                return false;
+            }
+            for (int i = 0; i < list1.Count; i++) {
+                if (list1[i] != list2[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
