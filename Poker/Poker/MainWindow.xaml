@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Card Games" Height="450" Width="800">
     <Canvas Background="DarkGreen">
-        <TextBlock Canvas.Left="225" Canvas.Top="25" Height="100" Width="400" Text="Heccin Card Games" TextAlignment="Center" Foreground="White" FontFamily="Harlow Solid" FontSize="35"/>
+        <TextBlock Canvas.Left="200" Canvas.Top="25" Height="100" Width="400" Text="Heccin Card Games" TextAlignment="Center" Foreground="White" FontFamily="Harlow Solid" FontSize="45"/>
         <Button Height="40" Width="200" Canvas.Bottom="200" Canvas.Left="275" Content="Poker" Background="DarkGoldenrod"  FontFamily="Harlow Solid" FontSize="25" BorderBrush="Black" BorderThickness="3" Click="Poker_Click"/>
         <Button Height="40" Width="200" Canvas.Bottom="150" Canvas.Left="275" Content="Black Jack" Background="Black"  FontFamily="Harlow Solid" FontSize="25" Foreground="DarkGoldenrod" BorderBrush="DarkGoldenrod" BorderThickness="3" Click="BlackJack_Click"/>
     </Canvas>
