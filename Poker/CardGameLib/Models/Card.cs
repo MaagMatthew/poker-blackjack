@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CardGameLib.Models {
-    public class Card {
+    public struct Card {
         public readonly Suit Suit;
         public readonly Face Face;
         
@@ -53,6 +53,20 @@ namespace CardGameLib.Models {
         public Uri ImageLocation {
             get {
                 return new Uri($"../Resources/{FaceChar()}{SuitChar()}.png", UriKind.Relative);
+            }
+        }
+        public static bool operator ==(Card self, Card other) {
+            return self.Face == other.Face && self.Suit == other.Suit;
+        }
+        public static bool operator !=(Card self, Card other) {
+            return !(self == other);
+        }
+        public override bool Equals(object obj) {
+            try {
+                Card other = (Card)obj;
+                return this == other;
+            } catch (InvalidCastException e) {
+                return false;
             }
         }
     }

@@ -8,7 +8,7 @@ namespace CardGameLib.Models
 {
     public class House
     {
-        public Deck HouseHand { get; set; }
+        public Deck HouseHand { get; set; } = new Deck(isEmpty:true);
 
     }
 }

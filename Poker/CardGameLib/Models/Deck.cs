@@ -66,5 +66,32 @@ namespace CardGameLib.Models {
         {
             return cards;
         }
+
+        public int FaceCount(Face face) {
+            int count = 0;
+            foreach (Card card in cards) {
+                if (card.Face == face) {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public int SuitCount(Suit suit) {
+            int count = 0;
+            foreach (Card card in cards) {
+                if (card.Suit == suit) {
+                    count++;
+                }
+            }
+            return count;
+        }
+        public bool Contains(Card card) {
+            foreach (Card loopCard in cards) {
+                if (card == loopCard) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
