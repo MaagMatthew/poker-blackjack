@@ -19,10 +19,13 @@ namespace Poker
     /// </summary>
     public partial class SetUpWindow : Window
     {
+        private int _boundNumber;
+        public int BoundNumber { get; set; }
         public string GameType { get; set; }
         public SetUpWindow(string gt)
         {
             GameType = gt;
+            BoundNumber = 1;
             InitializeComponent();
         }
 
@@ -31,6 +34,17 @@ namespace Poker
             GameWindow gw = new GameWindow(GameType, 2);
             gw.Show();
             this.Close();
+        }
+
+        private void More_Click(object sender, RoutedEventArgs e)
+        {
+            BoundNumber += 1;
+        }
+
+        private void Fewer_Click(object sender, RoutedEventArgs e)
+        {
+            BoundNumber -= 1;
+
         }
     }
 }
