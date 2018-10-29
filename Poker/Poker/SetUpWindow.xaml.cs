@@ -31,9 +31,18 @@ namespace Poker
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow gw = new GameWindow(GameType, 2);
-            gw.Show();
-            this.Close();
+            if (GameType.Equals("Poker"))
+            {
+                PokerGameWindow pgw = new PokerGameWindow(_boundNumber);
+                pgw.Show();
+                this.Close();
+            }
+            else if(GameType.Equals("BlackJack"))
+            {
+                BlackJackGameWindow gw = new BlackJackGameWindow(_boundNumber);
+                gw.Show();
+                this.Close();
+            }
         }
 
         private void More_Click(object sender, RoutedEventArgs e)

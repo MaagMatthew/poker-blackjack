@@ -19,17 +19,16 @@ namespace Poker
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameWindow : Window
+    public partial class PokerGameWindow : Window
     {
-        public string GameType { get; set; }
         public int NumOfPlayers { get; set; }
         public List<Player>  players { get; set; }
-        public GameWindow(string gt, int nop)
+        public PokerGameWindow(int NumOfP)
         {
-            GameType = gt;
-            NumOfPlayers = nop;
+            NumOfPlayers = NumOfP;
             players = new List<Player>();
             OnNavigatedTo();
+
             InitializeComponent();
         }
 
