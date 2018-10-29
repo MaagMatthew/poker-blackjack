@@ -61,5 +61,13 @@ namespace CardGameLib.Models {
         public static bool operator !=(Card self, Card other) {
             return !(self == other);
         }
+        public override bool Equals(object obj) {
+            try {
+                Card other = (Card)obj;
+                return this == other;
+            } catch (InvalidCastException e) {
+                return false;
+            }
+        }
     }
 }
