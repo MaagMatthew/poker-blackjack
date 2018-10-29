@@ -22,10 +22,13 @@ namespace Poker
         private int _boundNumber;
         public int BoundNumber { get; set; }
         public string GameType { get; set; }
-        public SetUpWindow(string gt)
+        public int Min { get; set; }
+        public int Max { get; set; }
+        public SetUpWindow(string gt, int min, int max)
         {
             GameType = gt;
-            BoundNumber = 1;
+            Min = min;
+            Max = max;
             InitializeComponent();
         }
 
@@ -45,6 +48,11 @@ namespace Poker
         {
             BoundNumber -= 1;
 
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            BoundNumber = 1;
         }
     }
 }
