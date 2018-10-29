@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Poker"
         mc:Ignorable="d"
         Title="Card Games" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Background="DarkGreen">
+        <Button Height="40" Width="200" Margin="297.5,72,297.5,310.8" Content="Poker" Background="DarkGoldenrod"  FontFamily="Harlow Solid" FontSize="25" BorderBrush="Black" BorderThickness="3" Click="Poker_Click"/>
+        <Button Height="40" Width="200" Margin="297.5,72,297.5,72" Content="Black Jack" Background="Black"  FontFamily="Harlow Solid" FontSize="25" Foreground="DarkGoldenrod" BorderBrush="DarkGoldenrod" BorderThickness="3" Click="BlackJack_Click"/>
     </Grid>
 </Window>
