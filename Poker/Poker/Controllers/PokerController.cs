@@ -81,8 +81,6 @@ namespace Poker.Controllers
         }
 
         public List<int> HandScore(Deck hand) {
-            List<int> score = new List<int>();
-
             Deck sortedHand = SortHand(hand);
 
             //Royal Flush
@@ -175,8 +173,6 @@ namespace Poker.Controllers
             }
 
             //Highcard
-            score.Add(0);
-            score.Add(FaceValues[sortedHand[sortedHand.Size - 1].Face]);
             return new List<int> { 0,
                 FaceValues[sortedHand[sortedHand.Size - 1].Face],
                 FaceValues[sortedHand[sortedHand.Size - 2].Face],

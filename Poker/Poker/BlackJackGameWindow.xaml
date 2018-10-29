@@ -24,9 +24,9 @@
             <TextBlock Name="BetNum" Text="$0" Foreground="White" FontFamily="Harlow Solid" FontSize="20" Canvas.Left="50" Canvas.Top="25" Width="100"/>
         </Canvas>
         <Canvas Name="Buttons" Height="75" Canvas.Top="10" Canvas.Left="275" Width="360">
-            <Button Name="Hit" Height="50" Width="90" Background="Black" Foreground="DarkGoldenrod" Content="Hit" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Click="Hit_Click"/>
-            <Button Name="Split" Height="50" Width="90" Background="DarkGoldenrod" Content="Split" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Canvas.Left="110" Click="Split_Click"/>
-            <Button Name="Pass" Height="50" Width="90" Background="Black" Foreground="DarkGoldenrod" Content="Pass" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Canvas.Left="220" Click="Pass_Click"/>
+            <Button Name="Hit" Height="50" Width="90" Background="Black" Foreground="DarkGoldenrod" Content="Hit" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Click="Hit_Click" BorderBrush="DarkGoldenrod" BorderThickness="3"/>
+            <Button Name="Split" Height="50" Width="90" Background="DarkGoldenrod" Content="Split" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Canvas.Left="110" Click="Split_Click" BorderBrush="Black" BorderThickness="3"/>
+            <Button Name="Pass" Height="50" Width="90" Background="Black" Foreground="DarkGoldenrod" Content="Pass" FontFamily="Harlow Solid" FontSize="30" Canvas.Top="12" Canvas.Left="220" Click="Pass_Click" BorderBrush="DarkGoldenrod" BorderThickness="3"/>
         </Canvas>
 
     </Canvas>
