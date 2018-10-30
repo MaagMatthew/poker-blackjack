@@ -33,9 +33,13 @@ namespace Poker
         /// <param name="e">the mouse</param>
         private void Poker_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             SetUpWindow poker = new SetUpWindow("Poker",2,4);
             poker.Show();
             this.Close();
+=======
+            NavigateToSetUp(typeof(PokerGameWindow), 2, 4);
+>>>>>>> Alice's-Work
         }
 
 
