@@ -8,7 +8,7 @@ namespace BlackjackTests
     [TestClass]
     public class PokerTests
     {
-        PokerController poker = new PokerController();
+        PokerController poker = new PokerController(2);
 
         [TestMethod]
         public void FaceFromValuePass()
