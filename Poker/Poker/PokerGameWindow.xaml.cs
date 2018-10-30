@@ -21,6 +21,7 @@ namespace Poker
     /// </summary>
     public partial class PokerGameWindow : Window
     {
+        
         public int NumOfPlayers { get; set; }
         public List<Player>  players { get; set; }
         public PokerGameWindow(int NumOfP)
@@ -30,6 +31,11 @@ namespace Poker
             OnNavigatedTo();
 
             InitializeComponent();
+        }
+         
+        public PokerGameWindow()
+        {
+
         }
 
         public void OnNavigatedTo()
@@ -59,6 +65,11 @@ namespace Poker
         private void RaiseButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public static PokerGameWindow Init(int NumOfPlayers)
+        {
+            return new PokerGameWindow(NumOfPlayers);
         }
     }
 }

@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Reflection;
 
 namespace Poker
 {
@@ -21,31 +22,27 @@ namespace Poker
     {
         private int _boundNumber;
         public int BoundNumber { get; set; }
-        public string GameType { get; set; }
+        public Type GameType { get; set; }
         public int Min { get; set; }
         public int Max { get; set; }
-        public SetUpWindow(string gt, int min, int max)
+      
+        public SetUpWindow(Type d, int min, int max)
         {
-            GameType = gt;
+            GameType = d;
             Min = min;
             Max = max;
+            Window_Loaded();
             InitializeComponent();
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            if (GameType.Equals("Poker"))
-            {
-                PokerGameWindow pgw = new PokerGameWindow(_boundNumber);
-                pgw.Show();
-                this.Close();
-            }
-            else if(GameType.Equals("BlackJack"))
-            {
-                BlackJackGameWindow gw = new BlackJackGameWindow(_boundNumber);
-                gw.Show();
-                this.Close();
-            }
+            Object boi = null;
+            MethodInfo NWConstructor = GameType.GetMethod($"Init", new Type[] { typeof(int) });
+            Object nextWindow = NWConstructor.Invoke( boi, new Object[] { _boundNumber });
+            MethodInfo NWShow = GameType.GetMethod($"Show", new Type[] { });
+            NWShow.Invoke(nextWindow, null);
+            this.Close();
         }
 
         private void More_Click(object sender, RoutedEventArgs e)
@@ -59,7 +56,7 @@ namespace Poker
 
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded()
         {
             BoundNumber = 1;
         }
