@@ -17,6 +17,9 @@ namespace Poker.Controllers
         public int LargeBlind { get; set; }
         public int CurrentBet { get; set; }
         public List<Player> Players { get; set; } = new List<Player>();
+        public int SmallBlindLocation { get; set; } = 0;
+        public int BigBlindLocation { get; set; }
+        public int CurrentPlayer { get; set; }
         public List<bool> ActivePlayers { get; set; } = new List<bool>();
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
         public House house = new House();
@@ -71,6 +74,30 @@ namespace Poker.Controllers
                     Players[i].Hand.Return(GameDeck.Draw());
                 }
             }
+
+            IncrementBlindLocations();
+        }
+
+        public void IncrementBlindLocations() {
+            do {
+                SmallBlindLocation = (SmallBlindLocation + 1) % Players.Count;
+            } while (!ActivePlayers[SmallBlindLocation]);
+
+            BigBlindLocation = (SmallBlindLocation + 1) % Players.Count;
+            while (!ActivePlayers[BigBlindLocation]) {
+                BigBlindLocation = (BigBlindLocation + 1) % Players.Count;
+            }
+
+            CurrentPlayer = (BigBlindLocation + 1) % Players.Count;
+            while (!ActivePlayers[CurrentPlayer]) {
+                CurrentPlayer = (CurrentPlayer + 1) % Players.Count;
+            }
+        }
+
+        public void IncrementCurrentPlayer() {
+            do {
+                CurrentPlayer = (CurrentPlayer + 1) % Players.Count;
+            } while (!ActivePlayers[CurrentPlayer]);
         }
 
         public void Raise(int money, Player p)
