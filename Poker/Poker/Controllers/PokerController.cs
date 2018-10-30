@@ -122,7 +122,7 @@ namespace Poker.Controllers
         }
 
         private Dictionary<Face, int> FaceValues = new Dictionary<Face, int>();
-        private Face FaceFromValue(int value) {
+        public Face FaceFromValue(int value) {
             foreach (KeyValuePair<Face, int> pair in FaceValues) {
                 if (pair.Value == value) {
                     return pair.Key;
@@ -233,7 +233,7 @@ namespace Poker.Controllers
             };
         }
 
-        private Deck SortHand(Deck hand) {
+        public Deck SortHand(Deck hand) {
             Deck handCopy = new Deck(true);
             for (int i = 0; i < hand.Size; i++) {
                 handCopy.Return(hand[i]);
