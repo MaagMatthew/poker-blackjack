@@ -15,12 +15,12 @@ namespace Poker.Controllers
         public int SmallBlind { get; set; }
         public int LargeBlind { get; set; }
         public int CurrentBet { get; set; }
-        public List<Player> Players { get; set; }
+        public List<Player> Players { get; set; } = new List<Player>();
         public List<bool> ActivePlayers { get; set; } = new List<bool>();
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
         public House house = new House();
 
-        public PokerController()
+        public PokerController(int numOfPlayers)
         {
             FaceValues.Add(Face.TWO, 2);
             FaceValues.Add(Face.THREE, 3);
@@ -35,6 +35,12 @@ namespace Poker.Controllers
             FaceValues.Add(Face.QUEEN, 12);
             FaceValues.Add(Face.KING, 13);
             FaceValues.Add(Face.ACE, 14);
+
+            for (int i = 0; i < numOfPlayers; i++) {
+                Players.Add(new Player(100));
+                ActivePlayers.Add(true);
+            }
+
             NewGame();
         }
 
@@ -71,7 +77,7 @@ namespace Poker.Controllers
         }
 
         private Dictionary<Face, int> FaceValues = new Dictionary<Face, int>();
-        public Face FaceFromValue(int value) {
+        private Face FaceFromValue(int value) {
             foreach (KeyValuePair<Face, int> pair in FaceValues) {
                 if (pair.Value == value) {
                     return pair.Key;
@@ -81,8 +87,6 @@ namespace Poker.Controllers
         }
 
         public List<int> HandScore(Deck hand) {
-            List<int> score = new List<int>();
-
             Deck sortedHand = SortHand(hand);
 
             //Royal Flush
@@ -123,7 +127,7 @@ namespace Poker.Controllers
                 if (hand.FaceCount(FaceFromValue(i)) == 3) {
                     for (int j = 14; j >= 2; j--) {
                         if (i != j && hand.FaceCount(FaceFromValue(j)) >= 2) {
-                            return new List<int> { 6, i, j }; //Are these values for tiebreaking correct?
+                            return new List<int> { 6, i };
                         }
                     }
                 }
@@ -138,21 +142,14 @@ namespace Poker.Controllers
                             fiveCardHand.Return(sortedHand[i]);
                         }
                     }
-                    return new List<int> {  //Do flushes get tiebroken?
-                        5,
-                        FaceValues[fiveCardHand[0].Face],
-                        FaceValues[fiveCardHand[1].Face],
-                        FaceValues[fiveCardHand[2].Face],
-                        FaceValues[fiveCardHand[3].Face],
-                        FaceValues[fiveCardHand[4].Face],
-                    };
+                    return new List<int> { 5 };
                 }
             }
 
             //Straight
             for (int i = sortedHand.Size - 1; i >= 0; i--) {
                 Card card = sortedHand[i];
-                if (FaceValues[card.Face] < 10) {
+                if (FaceValues[card.Face] < 9) {
                     if (hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 1)) > 0 &&
                         hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 2)) > 0 &&
                         hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 3)) > 0 &&
@@ -174,7 +171,7 @@ namespace Poker.Controllers
                 if (hand.FaceCount(FaceFromValue(i)) == 2) {
                     for (int j = 14; j >= 2; j--) {
                         if (i != j && hand.FaceCount(FaceFromValue(j)) == 2) {
-                            return new List<int> { 2, Math.Max(i, j), Math.Min(i, j) }; //Is this right?
+                            return new List<int> { 2, Math.Max(i, j), Math.Min(i, j) };
                         }
                     }
                     return new List<int> { 1, i };
@@ -182,11 +179,15 @@ namespace Poker.Controllers
             }
 
             //Highcard
-            score.Add(0);
-            score.Add(FaceValues[sortedHand[sortedHand.Size - 1].Face]);
-            return new List<int> { 0, FaceValues[sortedHand[sortedHand.Size - 1].Face] }; //Other cards?
+            return new List<int> { 0,
+                FaceValues[sortedHand[sortedHand.Size - 1].Face],
+                FaceValues[sortedHand[sortedHand.Size - 2].Face],
+                FaceValues[sortedHand[sortedHand.Size - 3].Face],
+                FaceValues[sortedHand[sortedHand.Size - 4].Face],
+                FaceValues[sortedHand[sortedHand.Size - 5].Face]
+            };
         }
-        public Deck SortHand(Deck hand) {
+        private Deck SortHand(Deck hand) {
             Deck handCopy = new Deck(true);
             for (int i = 0; i < hand.Size; i++) {
                 handCopy.Return(hand[i]);
@@ -203,6 +204,39 @@ namespace Poker.Controllers
                 result.Return(handCopy.Remove(lowestIndex));
             }
             return result;
+        }
+        public List<Deck> WinningHands(params Deck[] hands) {
+            List<int> highscore = new List<int> { -1 };
+            foreach (Deck hand in hands) {
+                List<int> score = HandScore(hand);
+                for (int i = 0; i < score.Count; i++) {
+                    if (score[i] > highscore[i]) {
+                        highscore = score;
+                    }
+                    if (score[i] != highscore[i]) {
+                        break;
+                    }
+                }
+            }
+
+            List<Deck> winners = new List<Deck>();
+            foreach (Deck hand in hands) {
+                if (IntListsEqual(HandScore(hand), highscore)) {
+                    winners.Add(hand);
+                }
+            }
+            return winners;
+        }
+        private bool IntListsEqual(List<int> list1, List<int> list2) {
+            if (list1.Count != list2.Count) {
+                return false;
+            }
+            for (int i = 0; i < list1.Count; i++) {
+                if (list1[i] != list2[i]) {
+                    return false;
+                }
+            }
+            return true;
         }
     }
 }

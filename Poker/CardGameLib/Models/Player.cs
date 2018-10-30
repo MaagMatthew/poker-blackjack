@@ -11,6 +11,7 @@ namespace CardGameLib.Models
         public int Money { get; set; }
         public string Username { get; set; }
         public Deck Hand { get; set; }
+        public Deck SecondaryHand { get; set; }
         public int BetPool { get; set; }
 
         public Player()
@@ -18,23 +19,27 @@ namespace CardGameLib.Models
             Money = 0;
             Username = "CPU";
             Hand = new Deck(true);
+            SecondaryHand = new Deck(true);
         }
         public Player(int money)
         {
             Money = money;
             Username = "CPU";
+            SecondaryHand = new Deck(true);
             Hand = new Deck(true);
         }
         public Player(string username)
         {
             Money = 0;
             Hand = new Deck(true);
+            SecondaryHand = new Deck(true);
             Username = username;
         }
         public Player(Deck deck)
         {
             Money = 0;
             Username = "CPU";
+            SecondaryHand = new Deck(true);
             Hand = deck;
         }
         public Player(int money, string username)
@@ -47,6 +52,7 @@ namespace CardGameLib.Models
         {
             Money = 0;
             Username = username;
+            SecondaryHand = new Deck(true);
             Hand = deck;
         }
         public Player(int money, Deck deck)
@@ -59,6 +65,7 @@ namespace CardGameLib.Models
         {
             Money = money;
             Username = username;
+            SecondaryHand = new Deck(true);
             Hand = deck;
         }
 

@@ -13,33 +13,28 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using CardGameLib.Models;
 using CardGameLib.Enums;
+using Poker.Controllers;
 
 namespace Poker
 {
     /// <summary>
     /// Interaction logic for GameWindow.xaml
     /// </summary>
-    public partial class GameWindow : Window
+    public partial class PokerGameWindow : Window
     {
-        public string GameType { get; set; }
-        public int NumOfPlayers { get; set; }
-        public List<Player>  players { get; set; }
-        public GameWindow(string gt, int nop)
+        private PokerController controller;
+        public PokerGameWindow(int NumOfP)
         {
-            GameType = gt;
-            NumOfPlayers = nop;
-            players = new List<Player>();
             OnNavigatedTo();
+
+            controller = new PokerController(NumOfP);
+
             InitializeComponent();
         }
 
         public void OnNavigatedTo()
         {
-            for(int i = 0; i < NumOfPlayers; i++)
-            {
-                Player p = new Player();
-                players.Add(p);
-            }
+            
         }
 
         private void Fold_Click(object sender, RoutedEventArgs e)

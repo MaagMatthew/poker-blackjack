@@ -33,7 +33,7 @@ namespace Poker
         /// <param name="e">the mouse</param>
         private void Poker_Click(object sender, RoutedEventArgs e)
         {
-            SetUpWindow poker = new SetUpWindow("Poker");
+            SetUpWindow poker = new SetUpWindow("Poker",2,4);
             poker.Show();
             this.Close();
         }
@@ -47,7 +47,7 @@ namespace Poker
         /// <param name="e">the mouse</param>
         private void BlackJack_Click(object sender, RoutedEventArgs e)
         {
-            SetUpWindow blackJack = new SetUpWindow("BlackJack");
+            SetUpWindow blackJack = new SetUpWindow("BlackJack",1,5);
             blackJack.Show();
             this.Close();
         }

@@ -55,13 +55,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="GameWindow.xaml.cs">
-      <DependentUpon>GameWindow.xaml</DependentUpon>
+    <Compile Include="BlackJackGameWindow.xaml.cs">
+      <DependentUpon>BlackJackGameWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PokerGameWindow.xaml.cs">
+      <DependentUpon>PokerGameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SetUpWindow.xaml.cs">
       <DependentUpon>SetUpWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="GameWindow.xaml">
+    <Page Include="BlackJackGameWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PokerGameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
