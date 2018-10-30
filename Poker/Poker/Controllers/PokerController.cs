@@ -12,10 +12,14 @@ namespace Poker.Controllers
     {
 
         public Deck GameDeck { get; set; } = new Deck();
+        public Deck CommunityCards { get; set; } = new Deck(true);
         public int SmallBlind { get; set; }
         public int LargeBlind { get; set; }
         public int CurrentBet { get; set; }
         public List<Player> Players { get; set; } = new List<Player>();
+        public int SmallBlindLocation { get; set; } = 0;
+        public int BigBlindLocation { get; set; }
+        public int CurrentPlayer { get; set; }
         public List<bool> ActivePlayers { get; set; } = new List<bool>();
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
         public House house = new House();
@@ -46,13 +50,54 @@ namespace Poker.Controllers
 
         public void NewGame()
         {
-            for(int i = 0; i < ActivePlayers.Count; i++)
+            while (CommunityCards.Size != 0) {
+                GameDeck.Return(CommunityCards.Draw());
+            }
+            foreach (Player player in Players) {
+                while (player.Hand.Size != 0) {
+                    GameDeck.Return(player.Hand.Draw());
+                }
+            }
+
+            for (int i = 0; i < ActivePlayers.Count; i++)
             {
                 if(Players[i].Money > -500)
                 {
                     ActivePlayers[i] = true;
                 }
             }
+
+            GameDeck.Shuffle();
+            for (int i = 0; i < ActivePlayers.Count; i++) {
+                if (ActivePlayers[i]) {
+                    Players[i].Hand.Return(GameDeck.Draw());
+                    Players[i].Hand.Return(GameDeck.Draw());
+                }
+            }
+
+            IncrementBlindLocations();
+        }
+
+        public void IncrementBlindLocations() {
+            do {
+                SmallBlindLocation = (SmallBlindLocation + 1) % Players.Count;
+            } while (!ActivePlayers[SmallBlindLocation]);
+
+            BigBlindLocation = (SmallBlindLocation + 1) % Players.Count;
+            while (!ActivePlayers[BigBlindLocation]) {
+                BigBlindLocation = (BigBlindLocation + 1) % Players.Count;
+            }
+
+            CurrentPlayer = (BigBlindLocation + 1) % Players.Count;
+            while (!ActivePlayers[CurrentPlayer]) {
+                CurrentPlayer = (CurrentPlayer + 1) % Players.Count;
+            }
+        }
+
+        public void IncrementCurrentPlayer() {
+            do {
+                CurrentPlayer = (CurrentPlayer + 1) % Players.Count;
+            } while (!ActivePlayers[CurrentPlayer]);
         }
 
         public void Raise(int money, Player p)
@@ -77,7 +122,7 @@ namespace Poker.Controllers
         }
 
         private Dictionary<Face, int> FaceValues = new Dictionary<Face, int>();
-        private Face FaceFromValue(int value) {
+        public Face FaceFromValue(int value) {
             foreach (KeyValuePair<Face, int> pair in FaceValues) {
                 if (pair.Value == value) {
                     return pair.Key;
@@ -187,7 +232,8 @@ namespace Poker.Controllers
                 FaceValues[sortedHand[sortedHand.Size - 5].Face]
             };
         }
-        private Deck SortHand(Deck hand) {
+
+        public Deck SortHand(Deck hand) {
             Deck handCopy = new Deck(true);
             for (int i = 0; i < hand.Size; i++) {
                 handCopy.Return(hand[i]);
@@ -205,6 +251,7 @@ namespace Poker.Controllers
             }
             return result;
         }
+
         public List<Deck> WinningHands(params Deck[] hands) {
             List<int> highscore = new List<int> { -1 };
             foreach (Deck hand in hands) {
@@ -227,6 +274,7 @@ namespace Poker.Controllers
             }
             return winners;
         }
+
         private bool IntListsEqual(List<int> list1, List<int> list2) {
             if (list1.Count != list2.Count) {
                 return false;
