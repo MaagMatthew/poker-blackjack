@@ -22,13 +22,10 @@ namespace Poker
     /// </summary>
     public partial class PokerGameWindow : Window
     {
-<<<<<<< HEAD
         private PokerController controller;
-=======
-        
         public int NumOfPlayers { get; set; }
         public List<Player>  players { get; set; }
->>>>>>> Alice's-Work
+
         public PokerGameWindow(int NumOfP)
         {
             OnNavigatedTo();

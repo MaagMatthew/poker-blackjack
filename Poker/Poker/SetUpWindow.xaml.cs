@@ -24,41 +24,27 @@ namespace Poker
     {
 
         public int BoundNumber { get; set; }
-<<<<<<< HEAD
 
-        public string GameType { get; set; }
-=======
         public Type GameType { get; set; }
->>>>>>> Alice's-Work
         public int Min { get; set; }
         public int Max { get; set; }
       
         public SetUpWindow(Type d, int min, int max)
         {
-<<<<<<< HEAD
             DataContext = this;
-            GameType = gt;
-=======
             GameType = d;
->>>>>>> Alice's-Work
             Min = min;
             Max = max;
-            Window_Loaded();
             InitializeComponent();
         }
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-<<<<<<< HEAD
-            GameWindow gw = new GameWindow(GameType, BoundNumber);
-            gw.Show();
-=======
             Object boi = null;
             MethodInfo NWConstructor = GameType.GetMethod($"Init", new Type[] { typeof(int) });
-            Object nextWindow = NWConstructor.Invoke( boi, new Object[] { _boundNumber });
+            Object nextWindow = NWConstructor.Invoke( boi, new Object[] { BoundNumber });
             MethodInfo NWShow = GameType.GetMethod($"Show", new Type[] { });
             NWShow.Invoke(nextWindow, null);
->>>>>>> Alice's-Work
             this.Close();
         }
 
@@ -80,7 +66,7 @@ namespace Poker
             }
         }
 
-        private void Window_Loaded()
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             BoundNumber = Min;
             PlayerNum.Text = BoundNumber.ToString();
