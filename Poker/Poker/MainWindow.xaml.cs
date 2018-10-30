@@ -47,8 +47,18 @@ namespace Poker
         /// <param name="e">the mouse</param>
         private void BlackJack_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             SetUpWindow blackJack = new SetUpWindow("BlackJack",1,5);
             blackJack.Show();
+=======
+            NavigateToSetUp(typeof(BlackJackGameWindow), 1, 5);
+        }
+
+        private void NavigateToSetUp(Type s, int min, int max)
+        {
+            SetUpWindow setUp = new SetUpWindow(s, min, max);
+            setUp.Show();
+>>>>>>> Alice's-Work
             this.Close();
         }
     }

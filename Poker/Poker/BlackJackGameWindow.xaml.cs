@@ -47,5 +47,11 @@ namespace Poker
         {
 
         }
+
+        public static BlackJackGameWindow Init(int NumOfPlayers)
+        {
+            return new BlackJackGameWindow(NumOfPlayers);
+        }
+
     }
 }
