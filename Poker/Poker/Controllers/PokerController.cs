@@ -11,12 +11,12 @@ namespace Poker.Controllers
     public class PokerController
     {
 
-        public Deck GameDeck { get; set; }
+        public Deck GameDeck { get; set; } = new Deck();
         public int SmallBlind { get; set; }
         public int LargeBlind { get; set; }
         public int CurrentBet { get; set; }
         public List<Player> Players { get; set; }
-        public List<bool> ActivePlayers { get; set; }
+        public List<bool> ActivePlayers { get; set; } = new List<bool>();
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
         public House house = new House();
 
@@ -71,7 +71,7 @@ namespace Poker.Controllers
         }
 
         private Dictionary<Face, int> FaceValues = new Dictionary<Face, int>();
-        private Face FaceFromValue(int value) {
+        public Face FaceFromValue(int value) {
             foreach (KeyValuePair<Face, int> pair in FaceValues) {
                 if (pair.Value == value) {
                     return pair.Key;
@@ -186,7 +186,7 @@ namespace Poker.Controllers
             score.Add(FaceValues[sortedHand[sortedHand.Size - 1].Face]);
             return new List<int> { 0, FaceValues[sortedHand[sortedHand.Size - 1].Face] }; //Other cards?
         }
-        private Deck SortHand(Deck hand) {
+        public Deck SortHand(Deck hand) {
             Deck handCopy = new Deck(true);
             for (int i = 0; i < hand.Size; i++) {
                 handCopy.Return(hand[i]);
