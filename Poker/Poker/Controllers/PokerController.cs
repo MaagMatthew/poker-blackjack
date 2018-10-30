@@ -11,16 +11,16 @@ namespace Poker.Controllers
     public class PokerController
     {
 
-        public Deck GameDeck { get; set; }
+        public Deck GameDeck { get; set; } = new Deck();
         public int SmallBlind { get; set; }
         public int LargeBlind { get; set; }
         public int CurrentBet { get; set; }
-        public List<Player> Players { get; set; }
-        public List<bool> ActivePlayers { get; set; }
+        public List<Player> Players { get; set; } = new List<Player>();
+        public List<bool> ActivePlayers { get; set; } = new List<bool>();
         public Dictionary<Face, int> keyValues = new Dictionary<Face, int>();
         public House house = new House();
 
-        public PokerController()
+        public PokerController(int numOfPlayers)
         {
             FaceValues.Add(Face.TWO, 2);
             FaceValues.Add(Face.THREE, 3);
@@ -35,6 +35,12 @@ namespace Poker.Controllers
             FaceValues.Add(Face.QUEEN, 12);
             FaceValues.Add(Face.KING, 13);
             FaceValues.Add(Face.ACE, 14);
+
+            for (int i = 0; i < numOfPlayers; i++) {
+                Players.Add(new Player(100));
+                ActivePlayers.Add(true);
+            }
+
             NewGame();
         }
 
@@ -143,7 +149,7 @@ namespace Poker.Controllers
             //Straight
             for (int i = sortedHand.Size - 1; i >= 0; i--) {
                 Card card = sortedHand[i];
-                if (FaceValues[card.Face] < 10) {
+                if (FaceValues[card.Face] < 9) {
                     if (hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 1)) > 0 &&
                         hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 2)) > 0 &&
                         hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 3)) > 0 &&
