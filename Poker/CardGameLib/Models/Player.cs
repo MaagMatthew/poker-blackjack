@@ -12,6 +12,7 @@ namespace CardGameLib.Models
         public string Username { get; set; }
         public Deck Hand { get; set; }
         public Deck SecondaryHand { get; set; }
+        public bool Dealer { get; set; }
         public int BetPool { get; set; }
 
         public Player()

@@ -2,9 +2,6 @@
 using CardGameLib.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Poker.Controllers
 {
@@ -13,7 +10,7 @@ namespace Poker.Controllers
 
         public Deck GameDeck { get; set; }
         public int SmallBlind { get; set; }
-        public int LargeBlind { get; set; }
+        public int BigBlind { get; set; }
         public int CurrentBet { get; set; }
         public List<Player> Players { get; set; }
         public List<bool> ActivePlayers { get; set; }
@@ -40,9 +37,9 @@ namespace Poker.Controllers
 
         public void NewGame()
         {
-            for(int i = 0; i < ActivePlayers.Count; i++)
+            for (int i = 0; i < ActivePlayers.Count; i++)
             {
-                if(Players[i].Money > -500)
+                if (Players[i].Money > -500)
                 {
                     ActivePlayers[i] = true;
                 }
@@ -51,7 +48,7 @@ namespace Poker.Controllers
 
         public void Raise(int money, Player p)
         {
-            if(money >= CurrentBet + LargeBlind)
+            if (money >= CurrentBet + BigBlind)
             {
                 CurrentBet = money;
                 p.Bet(CurrentBet - p.BetPool);
@@ -70,57 +67,87 @@ namespace Poker.Controllers
             ActivePlayers[Players.IndexOf(p)] = false;
         }
 
+        public void DealerPick(List<Player> players)
+        {
+            foreach (Player player in players)
+            {
+                if (player.Hand.Contains(new Card(Suit.CLUBS, Face.ACE)) ||
+                    (player.Hand.Contains(new Card(Suit.DIAMONDS, Face.ACE))) ||
+                    (player.Hand.Contains(new Card(Suit.HEARTS, Face.ACE))) ||
+                    (player.Hand.Contains(new Card(Suit.SPADES, Face.ACE))))
+                {
+                    player.Dealer = true;
+                }
+            }
+        }
+
         private Dictionary<Face, int> FaceValues = new Dictionary<Face, int>();
-        private Face FaceFromValue(int value) {
-            foreach (KeyValuePair<Face, int> pair in FaceValues) {
-                if (pair.Value == value) {
+        private Face FaceFromValue(int value)
+        {
+            foreach (KeyValuePair<Face, int> pair in FaceValues)
+            {
+                if (pair.Value == value)
+                {
                     return pair.Key;
                 }
             }
             throw new IndexOutOfRangeException($"There is no face with a value of {value}");
         }
 
-        public List<int> HandScore(Deck hand) {
+        public List<int> HandScore(Deck hand)
+        {
             Deck sortedHand = SortHand(hand);
 
             //Royal Flush
-            for (int i = 0; i < hand.Size; i++) {
+            for (int i = 0; i < hand.Size; i++)
+            {
                 Card card = hand[i];
-                if (card.Face == Face.TEN) {
+                if (card.Face == Face.TEN)
+                {
                     if (hand.Contains(new Card(card.Suit, Face.JACK)) &&
                         hand.Contains(new Card(card.Suit, Face.QUEEN)) &&
                         hand.Contains(new Card(card.Suit, Face.KING)) &&
-                        hand.Contains(new Card(card.Suit, Face.ACE))) {
+                        hand.Contains(new Card(card.Suit, Face.ACE)))
+                    {
                         return new List<int> { 9 };
                     }
                 }
             }
 
             //Straight Flush
-            for (int i = sortedHand.Size - 1; i >= 0; i--) {
+            for (int i = sortedHand.Size - 1; i >= 0; i--)
+            {
                 Card card = sortedHand[i];
-                if (FaceValues[card.Face] < 10) {
+                if (FaceValues[card.Face] < 10)
+                {
                     if (hand.Contains(new Card(card.Suit, FaceFromValue(FaceValues[card.Face] + 1))) &&
                         hand.Contains(new Card(card.Suit, FaceFromValue(FaceValues[card.Face] + 2))) &&
                         hand.Contains(new Card(card.Suit, FaceFromValue(FaceValues[card.Face] + 3))) &&
-                        hand.Contains(new Card(card.Suit, FaceFromValue(FaceValues[card.Face] + 4)))) {
+                        hand.Contains(new Card(card.Suit, FaceFromValue(FaceValues[card.Face] + 4))))
+                    {
                         return new List<int> { 8, FaceValues[card.Face] };
                     }
                 }
             }
 
             //Four of a Kind
-            for (int i = 14; i >= 2; i--) {
-                if (hand.FaceCount(FaceFromValue(i)) == 4) {
+            for (int i = 14; i >= 2; i--)
+            {
+                if (hand.FaceCount(FaceFromValue(i)) == 4)
+                {
                     return new List<int> { 7, i };
                 }
             }
 
             //Full House
-            for (int i = 14; i >= 2; i--) {
-                if (hand.FaceCount(FaceFromValue(i)) == 3) {
-                    for (int j = 14; j >= 2; j--) {
-                        if (i != j && hand.FaceCount(FaceFromValue(j)) >= 2) {
+            for (int i = 14; i >= 2; i--)
+            {
+                if (hand.FaceCount(FaceFromValue(i)) == 3)
+                {
+                    for (int j = 14; j >= 2; j--)
+                    {
+                        if (i != j && hand.FaceCount(FaceFromValue(j)) >= 2)
+                        {
                             return new List<int> { 6, i };
                         }
                     }
@@ -128,11 +155,15 @@ namespace Poker.Controllers
             }
 
             //Flush
-            foreach (Suit suit in Enum.GetValues(typeof(Suit))) {
-                if (hand.SuitCount(suit) >= 5) {
+            foreach (Suit suit in Enum.GetValues(typeof(Suit)))
+            {
+                if (hand.SuitCount(suit) >= 5)
+                {
                     Deck fiveCardHand = new Deck(true);
-                    for (int i = sortedHand.Size - 1; i >= 0 && fiveCardHand.Size < 5; i--) {
-                        if (sortedHand[i].Suit == suit) {
+                    for (int i = sortedHand.Size - 1; i >= 0 && fiveCardHand.Size < 5; i--)
+                    {
+                        if (sortedHand[i].Suit == suit)
+                        {
                             fiveCardHand.Return(sortedHand[i]);
                         }
                     }
@@ -141,30 +172,39 @@ namespace Poker.Controllers
             }
 
             //Straight
-            for (int i = sortedHand.Size - 1; i >= 0; i--) {
+            for (int i = sortedHand.Size - 1; i >= 0; i--)
+            {
                 Card card = sortedHand[i];
-                if (FaceValues[card.Face] < 10) {
+                if (FaceValues[card.Face] < 10)
+                {
                     if (hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 1)) > 0 &&
                         hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 2)) > 0 &&
                         hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 3)) > 0 &&
-                        hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 4)) > 0) {
+                        hand.FaceCount(FaceFromValue(FaceValues[card.Face] + 4)) > 0)
+                    {
                         return new List<int> { 4, FaceValues[card.Face] };
                     }
                 }
             }
 
             //Three of a Kind
-            for (int i = 14; i >= 2; i--) {
-                if (hand.FaceCount(FaceFromValue(i)) == 3) {
+            for (int i = 14; i >= 2; i--)
+            {
+                if (hand.FaceCount(FaceFromValue(i)) == 3)
+                {
                     return new List<int> { 3, i };
                 }
             }
 
             //Two Pairs & One Pair
-            for (int i = 14; i >= 2; i--) {
-                if (hand.FaceCount(FaceFromValue(i)) == 2) {
-                    for (int j = 14; j >= 2; j--) {
-                        if (i != j && hand.FaceCount(FaceFromValue(j)) == 2) {
+            for (int i = 14; i >= 2; i--)
+            {
+                if (hand.FaceCount(FaceFromValue(i)) == 2)
+                {
+                    for (int j = 14; j >= 2; j--)
+                    {
+                        if (i != j && hand.FaceCount(FaceFromValue(j)) == 2)
+                        {
                             return new List<int> { 2, Math.Max(i, j), Math.Min(i, j) };
                         }
                     }
@@ -181,17 +221,22 @@ namespace Poker.Controllers
                 FaceValues[sortedHand[sortedHand.Size - 5].Face]
             };
         }
-        private Deck SortHand(Deck hand) {
+        private Deck SortHand(Deck hand)
+        {
             Deck handCopy = new Deck(true);
-            for (int i = 0; i < hand.Size; i++) {
+            for (int i = 0; i < hand.Size; i++)
+            {
                 handCopy.Return(hand[i]);
             }
             Deck result = new Deck(true);
 
-            while (handCopy.Size != 0) {
+            while (handCopy.Size != 0)
+            {
                 int lowestIndex = 0;
-                for (int i = 0; i < handCopy.Size; i++) {
-                    if (FaceValues[handCopy[lowestIndex].Face] > FaceValues[handCopy[i].Face]) {
+                for (int i = 0; i < handCopy.Size; i++)
+                {
+                    if (FaceValues[handCopy[lowestIndex].Face] > FaceValues[handCopy[i].Face])
+                    {
                         lowestIndex = i;
                     }
                 }
@@ -199,34 +244,46 @@ namespace Poker.Controllers
             }
             return result;
         }
-        public List<Deck> WinningHands(params Deck[] hands) {
+        public List<Deck> WinningHands(params Deck[] hands)
+        {
             List<int> highscore = new List<int> { -1 };
-            foreach (Deck hand in hands) {
+            foreach (Deck hand in hands)
+            {
                 List<int> score = HandScore(hand);
-                for (int i = 0; i < score.Count; i++) {
-                    if (score[i] > highscore[i]) {
+                for (int i = 0; i < score.Count; i++)
+                {
+                    if (score[i] > highscore[i])
+                    {
                         highscore = score;
                     }
-                    if (score[i] != highscore[i]) {
+                    if (score[i] != highscore[i])
+                    {
                         break;
                     }
                 }
             }
 
             List<Deck> winners = new List<Deck>();
-            foreach (Deck hand in hands) {
-                if (IntListsEqual(HandScore(hand), highscore)) {
+            foreach (Deck hand in hands)
+            {
+                if (IntListsEqual(HandScore(hand), highscore))
+                {
                     winners.Add(hand);
                 }
             }
             return winners;
         }
-        private bool IntListsEqual(List<int> list1, List<int> list2) {
-            if (list1.Count != list2.Count) {
+
+        private bool IntListsEqual(List<int> list1, List<int> list2)
+        {
+            if (list1.Count != list2.Count)
+            {
                 return false;
             }
-            for (int i = 0; i < list1.Count; i++) {
-                if (list1[i] != list2[i]) {
+            for (int i = 0; i < list1.Count; i++)
+            {
+                if (list1[i] != list2[i])
+                {
                     return false;
                 }
             }
