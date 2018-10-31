@@ -2,13 +2,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Poker.Controllers;
 using CardGameLib.Models;
 using CardGameLib.Enums;
+using System.Collections.Generic;
 
 namespace BlackjackTests
 {
     [TestClass]
     public class BlackJackTests
     {
-        
         //Getting HandValues
         #region Getting Hand Values
 
@@ -122,7 +122,7 @@ namespace BlackjackTests
 
             bool beatHouse = false;
 
-            if(blackJack.GetHandValue(playerHand) > blackJack.GetHandValue(houseHand)
+            if (blackJack.GetHandValue(playerHand) > blackJack.GetHandValue(houseHand)
                 && blackJack.GetHandValue(playerHand) <= 21)
             {
                 beatHouse = true;
@@ -225,6 +225,7 @@ namespace BlackjackTests
 
             Assert.IsTrue(drawHouse);
         }
+
         [TestMethod]
         public void HouseDrawFail()
         {

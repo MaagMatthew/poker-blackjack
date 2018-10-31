@@ -33,9 +33,7 @@ namespace Poker
         /// <param name="e">the mouse</param>
         private void Poker_Click(object sender, RoutedEventArgs e)
         {
-            SetUpWindow poker = new SetUpWindow("Poker",2,8);
-            poker.Show();
-            this.Close();
+            NavigateToSetUp(typeof(PokerGameWindow), 2, 4);
         }
 
 
@@ -47,8 +45,13 @@ namespace Poker
         /// <param name="e">the mouse</param>
         private void BlackJack_Click(object sender, RoutedEventArgs e)
         {
-            SetUpWindow blackJack = new SetUpWindow("BlackJack",1,5);
-            blackJack.Show();
+            NavigateToSetUp(typeof(BlackJackGameWindow), 1, 5);
+        }
+
+        private void NavigateToSetUp(Type s, int min, int max)
+        {
+            SetUpWindow setUp = new SetUpWindow(s, min, max);
+            setUp.Show();
             this.Close();
         }
     }

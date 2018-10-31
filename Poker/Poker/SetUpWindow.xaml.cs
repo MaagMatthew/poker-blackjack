@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Reflection;
 
 namespace Poker
 {
@@ -24,13 +25,14 @@ namespace Poker
 
         public int BoundNumber { get; set; }
 
-        public string GameType { get; set; }
+        public Type GameType { get; set; }
         public int Min { get; set; }
         public int Max { get; set; }
-        public SetUpWindow(string gt, int min, int max)
+      
+        public SetUpWindow(Type d, int min, int max)
         {
             DataContext = this;
-            GameType = gt;
+            GameType = d;
             Min = min;
             Max = max;
             InitializeComponent();
@@ -38,8 +40,11 @@ namespace Poker
 
         private void Play_Click(object sender, RoutedEventArgs e)
         {
-            GameWindow gw = new GameWindow(GameType, BoundNumber);
-            gw.Show();
+            Object boi = null;
+            MethodInfo NWConstructor = GameType.GetMethod($"Init", new Type[] { typeof(int) });
+            Object nextWindow = NWConstructor.Invoke( boi, new Object[] { BoundNumber });
+            MethodInfo NWShow = GameType.GetMethod($"Show", new Type[] { });
+            NWShow.Invoke(nextWindow, null);
             this.Close();
         }
 
